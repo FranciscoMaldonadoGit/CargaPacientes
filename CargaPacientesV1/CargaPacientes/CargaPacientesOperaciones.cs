@@ -63,7 +63,6 @@ namespace CargaPacientesV1.CargaPacientes
                     {
                         pos += valores[index - 1].Length;
                         pos += 1;
-                        var tamanio = linea.Length;
                         DefineValores(index, linea.Substring(pos - 1, valores[index].Length), esEncabezado);
                     }
                 }
@@ -90,7 +89,7 @@ namespace CargaPacientesV1.CargaPacientes
 
         public void CargaPacientesOperacionesCargaTxt()
         {
-            string text = System.IO.File.ReadAllText(@"C:\Users\Luz Maldonado\Desktop\CargaPacientes\ejemplo1.txt");
+            string text = System.IO.File.ReadAllText(@"C:\Users\Luz Maldonado\Documents\Proyectos\CargaPacientes\ejemplo1.txt");
             //string text = System.IO.File.ReadAllText(@"C:\Users\Luz Maldonado\Desktop\CargaPacientes\partes\datosgenerales.txt");
             //System.Console.WriteLine("Contenido del archivo = {0}", text);
 
@@ -127,12 +126,11 @@ namespace CargaPacientesV1.CargaPacientes
             Regex rgx = new Regex(pattern);
             var matchCollection = rgx.Matches(text);
 
-
             string UnaPalabraVal = @"[:]{1}\s{2,25}[a-zA-Z0-9/.,]+";
             //string DosPalabraVal = @"[:]{1}\s{2,15}[a-zA-Z0-9/,]+\s{1}[a-zA-Z0-9/,]+";
-            string TresPalabraVal = @"[:]{1}\s{2,15}[a-zA-Z0-9/,]+\s{1}[a-zA-Z0-9/,]+\s{1}[a-zA-Z0-9/,]+"; ;
-            string CuatroPalabraVal = @"[:]{1}\s{2,15}[a-zA-Z0-9/,]+\s{1}[a-zA-Z0-9/,]+\s{1}[a-zA-Z0-9/,]+\s{1}[a-zA-Z0-9/,]+";
-            string CincoPalabraVal = @"[:]{1}\s{2,15}[a-zA-Z0-9/,]+\s{1}[a-zA-Z0-9/,]+\s{1}[a-zA-Z0-9/,]+\s{1}[a-zA-Z0-9/,]+\s{1}[a-zA-Z0-9/,]+";
+            string TresPalabraVal = @"[:]{1}\s{2,15}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+"; ;
+            string CuatroPalabraVal = @"[:]{1}\s{2,15}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+";
+            string CincoPalabraVal = @"[:]{1}\s{2,15}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+";
             //string pattern2 = @"(" + UnaPalabraVal + "|" + DosPalabraVal + "|" + TresPalabraVal + "|" + CuatroPalabraVal + "|" + CincoPalabraVal + ")";
             //string pattern2 = @"(" + UnaPalabraVal + "|"+ TresPalabraVal + "|" + CuatroPalabraVal + "|" + CincoPalabraVal + ")";
             string pattern2 = @"(" + CincoPalabraVal + "|" + CuatroPalabraVal + "|" + TresPalabraVal + "|" + UnaPalabraVal + ")";
@@ -158,75 +156,74 @@ namespace CargaPacientesV1.CargaPacientes
             //#endregion
 
             #region objeto datos generales
-            string remplzar = "";
-            int index = 0;
-            string[] arr1 = new string[matchCollection2.Count];
-            foreach (Match match2 in matchCollection2)
-            {
-                remplzar = match2.Value.Remove(0, 1);
-                arr1[index] = remplzar.Trim();
-                index++;
-            }
+                    string remplzar = "";
+                    int index = 0;
+                    string[] arr1 = new string[matchCollection2.Count];
+                    foreach (Match match2 in matchCollection2)
+                    {
+                        remplzar = match2.Value.Remove(0, 1);
+                        arr1[index] = remplzar.Trim();
+                        index++;
+                    }
 
-            //index = 0;
-            //string objPrincipa = "";
-            //foreach (Match match in matchCollection)
-            //{
-            //    //tomar en cuenta a partir de cuenta paciente
-            //    if (index >= 3)
-            //    {
-            //        //pendiente quitar  el \n y poner eb objeto c#
-            //        objPrincipa += $"{match.Value}{arr1[index]},\n";
-            //    }
-            //    index++;
-            //}
-            //objPrincipa = objPrincipa.Remove(objPrincipa.Length - 2, 1);  //remover ulitma coma (,)
-            //Console.WriteLine("{" + objPrincipa + "}");
-
+                    index = 0;
+                    string objPrincipa = "";
+                    foreach (Match match in matchCollection)
+                    {
+                        //tomar en cuenta a partir de cuenta paciente
+                        if (index >= 3)
+                        {
+                            //pendiente quitar  el \n y poner eb objeto c#
+                            objPrincipa += $"\"{match.Value.Remove(match.Value.Length - 1, 1)}\":\"{arr1[index]}\",\n";
+                        }
+                        index++;
+                    }
+                    objPrincipa = objPrincipa.Remove(objPrincipa.Length - 2, 1);  //remover ulitma coma (,)
+                    Console.WriteLine("{" + objPrincipa + "}");
             #endregion
 
-            int index3 = 0;
-            bool indexColumnas = false;
-            bool enconcuentraTamColumnas = false;
-            string[] numerocaracteres = null;
-            string lineaEncabezados = null;
-            
-            foreach (string line in File.ReadLines(@"C:\Users\Luz Maldonado\Desktop\CargaPacientes\ejemplo1.txt"))
-            {
-                if (line.Contains("Cod.Cargo        ") || line.Contains("Fecha    "))
-                {
-                    lineaEncabezados = line;
-                    indexColumnas = true;
-                    continue;  //evitar que inice aqui
-                }
+            //int index3 = 0;
+            //bool indexColumnas = false;
+            //bool enconcuentraTamColumnas = false;
+            //string[] numerocaracteres = null;
+            //string lineaEncabezados = null;
 
-                //enconcuentraTamColumnas : variable para controlar que se haga una sola vez.
-                //indexColumnas   : indice para encontrar la linea que señala el tamaño y cantidad de columnas de la tabla
-                //Ejemplo : ---- ------- .
-                if (indexColumnas == true && enconcuentraTamColumnas == false)
-                {
-                    var lineColumnas = line.Split(' ');
-                    numerocaracteres = new string[lineColumnas.Count()];
-                    numerocaracteres = lineColumnas;
-                    //Console.WriteLine(lineColumnas.Count());
-                    enconcuentraTamColumnas = true;
-                    continue; //evitar que inicie aqui
-                }
+            //foreach (string line in File.ReadLines(@"C:\Users\Luz Maldonado\Documents\Proyectos\CargaPacientes\ejemplo1.txt"))
+            //{
+            //    if (line.Contains("Cod.Cargo        ") || line.Contains("Fecha    "))
+            //    {
+            //        lineaEncabezados = line;
+            //        indexColumnas = true;
+            //        continue;  //evitar que inice aqui
+            //    }
 
-                //identificar final de la tabla
-                if (indexColumnas == true && line == "")
-                    break;
+            //    //enconcuentraTamColumnas : variable para controlar que se haga una sola vez.
+            //    //indexColumnas   : indice para encontrar la linea que señala el tamaño y cantidad de columnas de la tabla
+            //    //Ejemplo : ---- ------- .
+            //    if (indexColumnas == true && enconcuentraTamColumnas == false)
+            //    {
+            //        var lineColumnas = line.Split(' ');
+            //        numerocaracteres = new string[lineColumnas.Count()];
+            //        numerocaracteres = lineColumnas;
+            //        //Console.WriteLine(lineColumnas.Count());
+            //        enconcuentraTamColumnas = true;
+            //        continue; //evitar que inicie aqui
+            //    }
 
-                if (indexColumnas == true)
-                {
-                    Construye(numerocaracteres, lineaEncabezados, true);
-                    Construye(numerocaracteres, line);
-                    ConstruyeJsonServicios();
-                    index3++;
-                }
-            }
-            jsonServicios += "]";
-            Console.WriteLine(jsonServicios);
+            //    //identificar final de la tabla
+            //    if (indexColumnas == true && line == "")
+            //        break;
+
+            //    if (indexColumnas == true)
+            //    {
+            //        Construye(numerocaracteres, lineaEncabezados, true);
+            //        Construye(numerocaracteres, line);
+            //        ConstruyeJsonServicios();
+            //        index3++;
+            //    }
+            //}
+            //jsonServicios += "]";
+            //Console.WriteLine(jsonServicios);
         }
     }
 }

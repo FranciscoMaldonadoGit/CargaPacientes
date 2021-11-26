@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CargaPacientes\CargaPacientesOperaciones.cs" />
+    <Compile Include="CargaPacientes\Datos.cs" />
     <Compile Include="CargaPacientes\GeneralPaciente.cs" />
     <Compile Include="CargaPacientes\DatosObjeto.cs" />
     <Compile Include="Program.cs" />
