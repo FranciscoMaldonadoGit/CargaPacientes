@@ -1,0 +1,6 @@
+- meter control de versiones
+- Unir los 2 objetos json
+- Agregar   clave => valor de total de pagos
+- los objetos json pasarlo a aobjetos en C#, preguntar a mary si eso es lo que quieres
+- verificar  si las claves y los valores llevan acento 
+- Comentar a mary, que algunos campos estan cortados porque asi estan en el txt 

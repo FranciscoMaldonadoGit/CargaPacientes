@@ -1,0 +1,59 @@
+SysSys - v4.9a / Hospital 1  DE EXTENSIÓN NO :   1  A EXTENSIÓN NO:   1                        Pagina:     1
+Fact. Cuenta Pac. por Extension                                                                 De Fecha: 05/03/20 11:32
+Cuenta Paciente:    331233  Historia:    543210   Nombre:  Apellido1 Apellido2, Nombres     Fecha de Ingreso:  05/03/20
+  Cuenta Activa:  NO  Tipo Paciente:   Empresa 1 Sa de cv
+     Habitacion:  OBS012       Cama:  UNICA     Medico:  Nombre1 Nombre2 apellido1 apellido2
+  Observaciones:  observaciones
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Fecha    Cod.Cargo        Descripcion                                Cant.    Precio Uni.   IVA Unitario Precio Inc/IVA     A Facturar Origen Usuario
+-------- ---------------- -------------------------------------- --------- -------------- -------------- -------------- -------------- ------ -------- --------
+05/03/20 5320000401000408 ECO ENDOVAGINAL                           AAdfss       qwwwwwww         424.27       3,075.98       3,075.98 RX     khr01    ECO RAYO
+05/03/20 5312004001000110 TIEMPO DE TROMBOPLASTINA PARCIAL (T         1.00         459.46          73.51         532.97         532.97 LAB    MRG1086  LABORATO
+05/03/20 5312003001000010 BIOMETRIA HEMATICA COMPLETA (P)             1.00         269.50          43.12         312.62         312.62 LAB    MRG1086  LABORATO
+05/03/20 5312011001000140 GRUPO SANGUINEO Y RH (P)                    1.00         192.95          30.87         223.82         223.82 LAB    MRG1086  LABORATO
+05/03/20 5312004001000080 TIEMPO DE PROTROMBINA (P)                   1.00         226.74          36.28         263.02         263.02 LAB    MRG1086  LABORATO
+05/03/20 5314009009000002 TERAPIA MATERNO FETAL (hasta 6 hrs.         1.00         888.13         142.10       1,030.23       1,030.23 OBS    MHE3509  OBSTETRI
+05/03/20 0223500050130014 CLAVE C/ EXTENSION DE 18 CM 1 VIA CAT.      1.00         187.61          30.02         217.62         217.62 SCO    BAR2428  QUIRUGIR
+05/03/20 02005151755      KIT P/ INST DE CATETER PERIFERICO  CHG      1.00         208.39          33.34         241.73         241.73 SCO    BAR2428  QUIRUGIR
+05/03/20 0209500050130150 INTROCAN # 18 (P) REF.4251342 ( B.BRAU      1.00          51.32           8.21          59.53          59.53 SCO    BAR2428  QUIRUGIR
+05/03/20 0219500100110020 JERINGA B-D 10ML 22X32 (P).                 1.00          11.77           1.88          13.65          13.65 SCO    BAR2428  QUIRUGIR
+05/03/20 0110700292200405 AGUA ESTERIL INY 10ML REF.4000271           1.00          38.48           6.16          44.63          44.63 SCO    BAR2428  SERVICIO
+05/03/20 0110700292200405 AGUA ESTERIL INY 10ML REF.4000271           1.00          38.48           6.16          44.63          44.63 SCO    BAR2428  SERVICIO
+05/03/20 0110700292200405 AGUA ESTERIL INY 10ML REF.4000271           1.00          38.48           6.16          44.63          44.63 SCO    BAR2428  SERVICIO
+
+
+                                                                                                                     -------------
+                                                                                                   TOTAL DE CARGOS:       6,015.82
+
+
+
+                                                                                      -------------
+                                                                  SUBTOTAL:        5,186.05
+                                                                  IVA:               829.77
+                                                                  TOTAL:           6,015.82
+
+
+                                                                   MONTO DE PAGOS EN CAJA:                       0.00
+                                                                               DESCUENTOS:                       0.00
+
+                                                                 SALDO DE CUENTA PACIENTE:                   6,015.82
+
+
+DETALLE DE LOS PAGOS:
+
+Numero Recibo Fecha Trans Hora  Trans No Transacción Forma Pago                               Monto Referencia Cajero
+------------- ----------- ----------- -------------- ------------------------------ --------------- ---------- --------
+                                                     TOTAL DE PAGOS ==>                        0.00
+
+
+
+
+
+
+
+
+
+Continua en página:     2
+==================================================================================================================================
