@@ -7,7 +7,7 @@ Cuenta Paciente:    331233  Historia:    543210   Nombre:  Apellido1 Apellido2, 
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Fecha    Cod.Cargo        Descripcion                                Cant.    Precio Uni.   IVA Unitario Precio Inc/IVA     A Facturar Origen Usuario
+Fecha    Cod.Cargo        Descripcion                                Cant.    Precio Uni.   IVA Unitario Precio Inc/IVA     A Facturar Origen Usuario  Cpto
 -------- ---------------- -------------------------------------- --------- -------------- -------------- -------------- -------------- ------ -------- --------
 05/03/20 5320000401000408 ECO ENDOVAGINAL                             1.00       2,651.71         424.27       3,075.98       3,075.98 RX     khr01    ECO RAYO
 05/03/20 5312004001000110 TIEMPO DE TROMBOPLASTINA PARCIAL (T         1.00         459.46          73.51         532.97         532.97 LAB    MRG1086  LABORATO
