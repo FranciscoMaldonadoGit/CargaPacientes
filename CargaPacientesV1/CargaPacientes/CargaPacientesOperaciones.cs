@@ -10,23 +10,26 @@ using System.Threading.Tasks;
 
 namespace CargaPacientesV1.CargaPacientes
 {
-    public class CargaPacientesOperaciones
+    public class CargaPacientesServicios
     {
+        public readonly string rutaArchivo = "";
         string[] valoresEncabezado;
         string[] valoresRegistro;
         string jsonServicios = "";
+        string objPrincipaFinal = ""; 
 
-
-        public void DefineValores(int index, string line, bool esEncabezado = false)
+        public CargaPacientesServicios(string rutaArchivo)
         {
+            this.rutaArchivo = rutaArchivo;
+        }
+
+        public void GuardarValoresArreglos(int index, string line, bool esEncabezado = false)
+        {
+            string valorFila = ConstruyeObjetosDeFilaTablaPropiedad2(line);
             if (esEncabezado)
-            {
-                valoresEncabezado[index] = line.Trim();
-            }
+                valoresEncabezado[index] = valorFila; //line.Trim();
             else
-            {
-                valoresRegistro[index] = line.Trim();
-            }
+                valoresRegistro[index] = valorFila;   //line.Trim(); 
         }
 
         public string IgualarStrings(string linea, int lineasGuiatamanio)
@@ -46,15 +49,15 @@ namespace CargaPacientesV1.CargaPacientes
         }
 
         /// <summary>
-        /// Recorre registros
+        /// Recorre registros  y encabezado
+        /// y cada columna del registr
         /// </summary>
         /// <param name="valores"></param>
         /// <param name="linea"></param>
         /// <param name="esEncabezado"></param>
-        public void Construye(string[] valores, string linea, int lineasGuiatamanio = 0, bool esEncabezado = false)
+        public void ConstruyeObjetosDeFilaTabla(string[] valores, string linea, int lineasGuiatamanio = 0, bool esEncabezado = false)
         {
-            //una columna no existe
-            //pendiente mejora 
+            
             if (esEncabezado)
             {
                 linea = IgualarStrings(linea, lineasGuiatamanio);
@@ -69,7 +72,7 @@ namespace CargaPacientesV1.CargaPacientes
             {
                 if (index == 0)
                 {
-                    DefineValores(index, linea.Substring(pos, valores[index].Length), esEncabezado);
+                    GuardarValoresArreglos(index, linea.Substring(pos, valores[index].Length), esEncabezado);
                 }
                 else
                 {
@@ -77,46 +80,53 @@ namespace CargaPacientesV1.CargaPacientes
                     {
                         pos += valores[index - 1].Length;
                         pos += 2;
-                        DefineValores(index, linea.Substring(pos - 1, valores[index].Length), esEncabezado);
+                        GuardarValoresArreglos(index, linea.Substring(pos - 1, valores[index].Length), esEncabezado);
                     }
                     else
                     {
                         pos += valores[index - 1].Length;
                         pos += 1;
-                        DefineValores(index, linea.Substring(pos - 1, valores[index].Length), esEncabezado);
+                        GuardarValoresArreglos(index, linea.Substring(pos - 1, valores[index].Length), esEncabezado);
                     }
                 }
                 index++;
             }
         }
 
-        public void ConstruyeJsonServicios()
+        public void ConstruyeObjetosDeFilaTablaJsonServicios()
         {
-            int indexConstruyeJson = 0;
+            int indexConstruyeObjetosDeFilaTablaJson = 0;
             jsonServicios += jsonServicios != "" ? ",{" : "[{";
 
             foreach (var item in valoresEncabezado)
             {
-                var prop = ConstruyePropiedad(item); 
-                jsonServicios += $" \"{prop}\" : \"{valoresRegistro[indexConstruyeJson]}\" ";
+                var prop = ConstruyeObjetosDeFilaTablaPropiedad2(item, true);
+                jsonServicios += $" \"{prop}\" : \"{valoresRegistro[indexConstruyeObjetosDeFilaTablaJson]}\" ";
 
-                if (indexConstruyeJson != valoresRegistro.Length - 1)
+                if (indexConstruyeObjetosDeFilaTablaJson != valoresRegistro.Length - 1)
                     jsonServicios += " ,";
-                indexConstruyeJson++;
+
+                indexConstruyeObjetosDeFilaTablaJson++;
             }
 
             jsonServicios += "}";
         }
 
-        public string  ConstruyePropiedad(string item)
+        //public string ConstruyeObjetosDeFilaTablaPropiedad(string item)
+        //{
+        //    return item.Replace(" ", "").Replace(".", "_").Replace("/", "_");
+        //}
+
+        public string ConstruyeObjetosDeFilaTablaPropiedad2(string item,  bool esPropiedad = false)
         {
-            return item.Replace(" ", "").Replace(".", "_").Replace("/", "_");
+            if (esPropiedad)
+                return item.Replace(" ", "").Replace(".", "_").Replace("/", "_").Trim();
+            else //es valor
+                return item.Trim(); 
         }
 
-        public void CargaPacientesOperacionesCargaTxt()
+        public string[] PatronExpresionRegules()
         {
-            string text = System.IO.File.ReadAllText(@"C:\Users\Luz Maldonado\Documents\Proyectos\CargaPacientes\ejemplo1.txt");
-
             string SimboloFlechaClave = @"[a-zA-ZÀ-ÿ]+\s[a-zA-ZÀ-ÿ]+\s[a-zA-ZÀ-ÿ]+\s+[==>]{3}";
             string UnaPalabra = @"[a-zA-ZÀ-ÿ]+[:]{1}";
             string DosPalabra = @"[a-zA-ZÀ-ÿ]+\s{0,1}[a-zA-ZÀ-ÿ]+[:]{1}";
@@ -125,23 +135,26 @@ namespace CargaPacientesV1.CargaPacientes
             string CincoPalabra = @"[a-zA-ZÀ-ÿ]+\s{0,1}[a-zA-ZÀ-ÿ]+\s{0,1}[a-zA-ZÀ-ÿ]+\s{0,1}[a-zA-ZÀ-ÿ]+\s{0,1}[a-zA-ZÀ-ÿ]+[:]{1}";
             string pattern = @"(" + SimboloFlechaClave + "|" + UnaPalabra + "|" + DosPalabra + "|" + TresPalabra + "|" + CuatroPalabra + "|" + CincoPalabra + ")";
 
-            Regex rgx = new Regex(pattern);
-            var matchCollection = rgx.Matches(text);
-
             string SimboloFlechaValue = @"[==>]{3}\s+[0-9.,]+";
             string UnaPalabraVal = @"[:]{1}\s{2,25}[a-zA-Z0-9/.,]+";
-            //string DosPalabraVal = @"[:]{1}\s{2,15}[a-zA-Z0-9/,]+\s{1}[a-zA-Z0-9/,]+";
+            string DosPalabraVal = @"[:]{1}\s{2,15}[a-zA-Z0-9/,]+\s{1}[a-zA-Z0-9/,]+";
             string TresPalabraVal = @"[:]{1}\s{2,15}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+"; ;
             string CuatroPalabraVal = @"[:]{1}\s{2,15}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+";
             string CincoPalabraVal = @"[:]{1}\s{2,15}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+\s{1}[a-zA-Z0-9/.,]+";
-            //string pattern2 = @"(" + UnaPalabraVal + "|" + DosPalabraVal + "|" + TresPalabraVal + "|" + CuatroPalabraVal + "|" + CincoPalabraVal + ")";
-            //string pattern2 = @"(" + UnaPalabraVal + "|"+ TresPalabraVal + "|" + CuatroPalabraVal + "|" + CincoPalabraVal + ")";
-            string pattern2 = @"(" + SimboloFlechaValue + "|" + CincoPalabraVal + "|" + CuatroPalabraVal + "|" + TresPalabraVal + "|" + UnaPalabraVal + ")";
+            string pattern2 = @"(" + SimboloFlechaValue + "|" + CincoPalabraVal + "|" + CuatroPalabraVal + "|" + TresPalabraVal + "|" + DosPalabraVal + "|" + UnaPalabraVal + ")";
 
-            Regex rgx2 = new Regex(pattern2);
-            var matchCollection2 = rgx2.Matches(text);
+            return new string[] { pattern, pattern2 };
+        }
 
-            #region objeto datos generales
+        public GeneralPaciente CargaDatosGeneralesPacienteTxt()
+        {
+            string text = System.IO.File.ReadAllText(this.rutaArchivo);
+            Regex RegExClaves = new Regex(PatronExpresionRegules()[0]);
+            var matchCollection = RegExClaves.Matches(text);
+
+            Regex RegExValues = new Regex(PatronExpresionRegules()[1]);
+            var matchCollection2 = RegExValues.Matches(text);
+
             string remplzar = "";
             int index = 0;
             string[] arr1 = new string[matchCollection2.Count];
@@ -158,7 +171,7 @@ namespace CargaPacientesV1.CargaPacientes
                     remplzar = match2.Value.Remove(0, 1);
                 }
 
-                arr1[index] = remplzar.Trim();
+                arr1[index] = ConstruyeObjetosDeFilaTablaPropiedad2(remplzar);//remplzar.Trim();
 
                 index++;
             }
@@ -167,28 +180,36 @@ namespace CargaPacientesV1.CargaPacientes
             string objPrincipa = "";
             foreach (Match match in matchCollection)
             {
-                //tomar en cuenta a partir de cuenta paciente
-                if (index >= 3)
-                {
+                //tomar en cuenta a partir de cuenta paciente index >= 3 
+                //ignorar  DETALLE DE LOS PAGOS:
+                if (index >= 3 && index != 20){
                     // del final remover ==>
                     if (match.Value.Substring(match.Value.Length - 3, 3) == "==>")
                     {
-                        objPrincipa += $"\"{match.Value.Remove(match.Value.Length - 3, 3).Trim().Replace(" ", "")}\":\"{arr1[index]}\",\n";
+                        //objPrincipa += $"\"{match.Value.Remove(match.Value.Length - 3, 3).Trim().Replace(" ", "")}\":\"{arr1[index]}\",\n";
+                        objPrincipa += $"\"{ConstruyeObjetosDeFilaTablaPropiedad2(match.Value.Remove(match.Value.Length - 3, 3), true )}\":\"{arr1[index]}\"";
                     }
                     //del final remover :
                     else
                     {
-                        objPrincipa += $"\"{match.Value.Remove(match.Value.Length - 1, 1).Trim().Replace(" ", "")}\":\"{arr1[index]}\",\n";
+                        //objPrincipa += $"\"{match.Value.Remove(match.Value.Length - 1, 1).Trim().Replace(" ", "")}\":\"{arr1[index]}\",\n";
+                        objPrincipa += $"\"{ConstruyeObjetosDeFilaTablaPropiedad2(match.Value.Remove(match.Value.Length - 1, 1), true)}\":\"{arr1[index]}\"";
                     }
+
+                    if (index != arr1.Length - 1)//AUN NO llego al final uso comas
+                    objPrincipa += ",\n";
                 }
                 index++;
             }
-            objPrincipa = objPrincipa.Remove(objPrincipa.Length - 2, 1);  //remover ulitma coma (,)
-            string objPrincipaFinal = "{" + objPrincipa + "}";
-            Console.WriteLine(objPrincipaFinal);
-            #endregion
 
-            #region datosGenerales
+            objPrincipaFinal = "{" + objPrincipa + "}";
+            Console.WriteLine(objPrincipaFinal);
+
+            return JsonConvert.DeserializeObject<GeneralPaciente>(objPrincipaFinal);
+        }
+
+        public List<GeneralDetallePaciente> CargaDatosServiciosPacienteTxt()
+        {
             int index3 = 0;
             bool indexColumnas = false;
             bool enconcuentraTamColumnas = false;
@@ -196,8 +217,11 @@ namespace CargaPacientesV1.CargaPacientes
             string lineaEncabezados = null;
             int lineasGuiatamanio = 0;
 
-            foreach (string line in File.ReadLines(@"C:\Users\Luz Maldonado\Documents\Proyectos\CargaPacientes\ejemplo1.txt"))
+            var readlinesTxt = File.ReadLines(this.rutaArchivo);
+
+            foreach (string line in readlinesTxt)
             {
+                //Las tablas a verificar deben tener por lo menos estos campos Cod.Cargo y Fecha
                 if (line.Contains("Cod.Cargo        ") || line.Contains("Fecha    "))
                 {
                     lineaEncabezados = line;
@@ -222,15 +246,16 @@ namespace CargaPacientesV1.CargaPacientes
                 if (indexColumnas == true && line == "")
                     break;
 
+                //recorrer solo registros
                 if (indexColumnas == true)
                 {
-                    Construye(numerocaracteres, lineaEncabezados, lineasGuiatamanio, true);
-                    Construye(numerocaracteres, line);
-                    ConstruyeJsonServicios();
+                    ConstruyeObjetosDeFilaTabla(numerocaracteres, lineaEncabezados, lineasGuiatamanio, true);
+                    ConstruyeObjetosDeFilaTabla(numerocaracteres, line);
+                    ConstruyeObjetosDeFilaTablaJsonServicios();
                     index3++;
                 }
             }
-            
+
             jsonServicios += "]";
 
             Console.WriteLine();
@@ -238,17 +263,15 @@ namespace CargaPacientesV1.CargaPacientes
             Console.WriteLine();
 
             Console.WriteLine(jsonServicios);
-
-            ConversionesJsonObjetosCSharp(objPrincipaFinal, jsonServicios);
-            
-            #endregion
+            //ConversionesJsonObjetosCSharp(objPrincipaFinal, jsonServicios);
+            return JsonConvert.DeserializeObject<List<GeneralDetallePaciente>>(jsonServicios);
         }
 
-        private void ConversionesJsonObjetosCSharp(string json, string jsonServicios)
-        {
-            GeneralPaciente settingCorreo = JsonConvert.DeserializeObject<GeneralPaciente>(json);
-            List<GeneralDetallePaciente> settingCorreo2 = JsonConvert.DeserializeObject<List<GeneralDetallePaciente>>(jsonServicios);
-        }
+        //private void ConversionesJsonObjetosCSharp(string json, string jsonServicios)
+        //{
+        //    //GeneralPaciente settingCorreo = JsonConvert.DeserializeObject<GeneralPaciente>(json);
+        //    List<GeneralDetallePaciente> settingCorreo2 = JsonConvert.DeserializeObject<List<GeneralDetallePaciente>>(jsonServicios);
+        //}
 
     }
 }

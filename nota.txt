@@ -1,11 +1,4 @@
 - meter control de versiones ** listo
 - verificar  si las claves y los valores llevan acento ** listo
-- Agregar   clave => valor de total de pagos
-- Agregar columna de concepto
-- Unir los 2 objetos json  
-- los objetos json pasarlo a aobjetos en C#, preguntar a mary si eso es lo que quieres
-- Comentar a mary, que algunos campos estan cortados porque asi estan en el txt 
-- nombres de variables y metodos
-- no usar datos en duro, con respecto a las rutas
-- quita codigo comentando
-- anotacion de como funcionan las expresiones regulares
+- Agregar   clave => valor de total de pagos  ** listo
+- Agregar columna de concepto  ....  ** listo

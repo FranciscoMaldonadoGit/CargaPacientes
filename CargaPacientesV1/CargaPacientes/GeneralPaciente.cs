@@ -21,6 +21,7 @@ namespace CargaPacientesV1.CargaPacientes
         public string Observaciones { get; set; }
         public string SUBTOTAL { get; set; }
         public string IVA { get; set; }
+        public string TOTALDECARGOS { get; set; }
         public string TOTAL { get; set; }
         public string MONTODEPAGOSENCAJA { get; set; }
         public string DESCUENTOS { get; set; }
