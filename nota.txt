@@ -1,4 +1,0 @@
-- meter control de versiones ** listo
-- verificar  si las claves y los valores llevan acento ** listo
-- Agregar   clave => valor de total de pagos  ** listo
-- Agregar columna de concepto  ....  ** listo
